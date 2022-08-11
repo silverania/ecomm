@@ -1,4 +1,7 @@
 *
 !.gitignore
 !/home/
+!urls.py
 !/*/models.py
+!/*/views.py
+!/*/urls.py
