@@ -1,9 +1,9 @@
 *
 !.gitignore
 !/home/
-!urls.py
+!/ecomm/urls.py
 !/*/*.py
-!/*/templates/*.html
+!/home/templates/*.html
 !/*/templates/*/*.html
 !/*/templates/*/*/*.html
 
