@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Logged out{% endblock %}
+{% block content %}
+<div style="width:300px;height:auto;margin:200px auto">
+
+<a class="badge badge-info" href="{% url "homepage:tutorial_detail" %}">
+  <span style="font-size:3rem">HOMEPAGE ></span>&nbsp&nbsp<i style="color:orange;font-size:3rem;" class="fas fa-sign-out-alt"></i></a>
+  <br><br><br>
+
+  <a class="badge badge-info" href="{% url "logout" %}">
+  <i style="color:red;font-size:3rem;" class="fas fa-sign-out-alt"></i>  <span style="font-size:3rem">ESCI</span>&nbsp&nbsp</a>
+</div>
+{% endblock %}

@@ -1,3 +1,4 @@
 ecomm/settings.py
 models.py
 manage.py
+migration/*

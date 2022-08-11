@@ -1,0 +1,122 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Log-in {% endblock title %}
+
+{% block content %}
+<div class="container">
+
+
+    <div class="kpx_login">
+        <h3 class="kpx_authTitle">Autenticati Con Un Social<a href={% if 'blog' in request.path %} "/user/login/blog"
+                                                            {% else %} "/user/login"{% endif %}> Oppure Accedi Se Sei Registrato</a></h3>
+<div class="row kpx_row-sm-offset-4 kpx_socialButtons">
+          <div class="col-xs-2 offset-sm-4 col-sm-2 social">
+
+
+
+
+            <a href="{% url 'social:begin' 'facebook' %}" class="facebook btn btn-lg btn-block kpx_btn-facebook" data-toggle="tooltip" data-placement="top" title="Facebook">
+              <i class="fab fa-facebook fa-2x"></i>
+              <span class="hidden-xs"></span>
+            </a>
+          </div>
+          <!--div class="col-xs-2 col-sm-2">
+            <a href="#" class="twitter btn btn-lg btn-block kpx_btn-twitter" data-toggle="tooltip" data-placement="top" title="Twitter">
+              <i class="fab fa-twitter fa-2x"></i>
+              <span class="hidden-xs"></span>
+            </a>
+          </div-->
+          <div class="col-xs-2 col-sm-2">
+            <a href="#" class="google btn btn-lg btn-block kpx_btn-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus">
+              <i class="fab fa-google fa-2x"></i>
+              <span class="hidden-xs"></span>
+            </a>
+          </div>
+    </div><br>
+
+
+
+		<div class="row kpx_row-sm-offset-3 kpx_loginOr">
+			<div class="col-xs-12 col-sm-6">
+				<hr class="kpx_hrOr"><br>
+				<h3 class="kpx_authTitle">Registrazione</h3>
+			</div>
+		</div>
+
+		<div class="row kpx_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-6">
+
+        <form method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            {% csrf_token %}
+            {% for field in form %}
+              <p>
+                {% if 'Conferma' in field.label_tag %}
+                  <label>Conferma Password :</label>
+                {{ field }}
+                {% elif 'Password:' in field.label_tag %}
+                  <label>Password :</label>
+                {{ field }}
+                {% elif 'Photo' in field.label_tag %}
+                <small style="color: grey">Opzionale</small>
+                  <label>{{field.label_tag}}</label>
+                    {{ field }}
+                {% elif 'Nome' in field.label_tag %}
+                    <label>Nome Utente :</label>
+                  <small style="color: grey"></small>
+                {{ field }}</p>
+                {% if field.help_text %}
+                    {% if field.errors %}
+                      <p style="color:red;">Username Errato o Esistente ! Cambialo !</p>
+                        <script>setTimeout(() => { window.location.href = "{% if 'blog' in request.path %} /user/register/blog
+                                                                            {% else %} /user/register{% endif %}"},5000);</script>
+                {% endif %}
+{% endif %}
+                {% else %}
+                {% endif %}
+                {% for error in field.errors %}
+                  {% if 'Password' in field.label_tag %}
+                  <p style="color: red">Errore Nel Campo <mark>Password !</mark></p>
+                    <script>setTimeout(() => { window.location.href = "/user/register"},5000);</script>
+                  {% endif %}
+
+                {% endfor %}
+            {% endfor %}
+              <div >
+            <button style="display:block;margin:0 auto!important;" class="btn btn-primary "  type="submit">Registrami</button>
+          </div></div>
+
+
+			</div>
+    	</div>
+		<div class="row kpx_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-3">
+            <p></p>
+				<label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" value="remember-me">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Ricordami !</span>
+                        </label>
+
+
+			</div>
+			<div class="col-xs-12 col-sm-3">
+				<p class="kpx_forgotPwd">
+					<a href="#">Password Dimenticata ?</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+
+
+
+        </div>
+        <script>
+$(document).ready(function(){
+  var login="{{ request.user.is_authenticated }}"
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+{% endblock content %}
