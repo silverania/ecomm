@@ -3,3 +3,7 @@
 !/home/
 !urls.py
 !/*/*.py
+!/*/templates/*.html
+!/*/templates/*/*.html
+!/*/templates/*/*/*.html
+
