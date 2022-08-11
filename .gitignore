@@ -1,4 +1,6 @@
-ecomm/settings.py
-models.py
-manage.py
-migration/*
+*
+!.gitignore
+!*/models.py
+!*/urls.py
+!*/admin.py
+!*/templates/*.html
