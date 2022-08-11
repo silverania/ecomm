@@ -1,6 +1,6 @@
 *
 !.gitignore
-!*/models.py
-!*/urls.py
-!*/admin.py
+!models.py
+!urls.py
+!admin.py
 !*/templates/*.html
