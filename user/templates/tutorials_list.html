@@ -1,0 +1,8 @@
+{% load staticfiles %}
+
+{% for t in tutorial %}{{t.title}}{% endfor %}<br><br>
+{% for i in users %}
+{% for eai in i.categories.all %}
+{{ eai }}
+{% endfor %}
+{% endfor %}

@@ -3,7 +3,9 @@
 !/home/
 !/ecomm/urls.py
 !/*/*.py
+!/home/templates/
 !/home/templates/*.html
-!/*/templates/*/*.html
-!/*/templates/*/*/*.html
-
+!/user/
+!/user/*.py
+!/user/templates/
+!/user/templates/*
