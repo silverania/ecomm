@@ -1,24 +1,37 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404
-from .models import Category, Product
+from django.http import HttpResponse
+import braintree
+from django.conf import settings
 
 
-class Product_List(View):
-    def get(self, request, category_slug=None):
-        category = None
-        categories = Category.objects.all()
-        products = Product.objects.filter(available=True)
-        if category_slug:
-            category = get_object_or_404(Category, slug=category_slug)
-            products = products.filter(category=category)
-        return render(request, 'product/list.html', {'category': category,
-                      'categories': categories, 'products': products})
-
-
-class Product_Detail(View):
-    def get(self, request, id, slug):
-        product = get_object_or_404(Product, id=id, slug=slug, available=True)
-        return render(request, 'product/detail.html',
-                      {'product': product})
+def page(request):
+    paymethod = ""
+    amount = ""
+    cardNumberValue = ""
+    expiration_date = ""
+    gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+    if request.method == 'GET':
+        return render(request, "base_ecomm.html")
+# per il client_token invece che la token_key :
+# client_token = gateway.client_token.generate()
+# return render(request, "base_ecomm.html" , {'client_token' : client_token})
+    else:
+        request.method == 'POST'
+        if 'amount' in request.POST:
+            amount = request.POST['amount']
+        if 'paymentMethodNonce' in request.POST:
+            paymethod = request.POST['paymentMethodNonce']
+        if 'cardNumberValue' in request.POST:
+            cardNumberValue = request.POST['cardNumberValue']
+    result = gateway.transaction.sale({"credit_card": {
+                                                      "number": cardNumberValue,
+                                                      "expiration_date": "05/2010",
+        "cvv": "100"
+    },
+                                        {'amount': amount, 'payment_method_nonce': paymethod,
+                                         'options':                                           {'submit_for_settlement': True, }})
+        if result.is_success:
+        print(str(result))
+        return HttpResponse({'result': result})
+        HttpResponse("Qualcosa è andato storto", {'result': result})
