@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="it">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8"/>
+    <meta name="author" content="silverania"/>
+    <meta name="keywords" content="{% block keywords %}{% endblock keywords %}"/>
+    <meta name="description" content="{% block description %}{% endblock description %}"/>
+    <title>Il prezzo più basso</title>
+    <link rel="icon" type="image/x-icon" href="{% static "images/favicon.ico" %}"/>
+    
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}"/>
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    
+    <script  src="{% static 'css/@popperjs/core/dist/umd/popper.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}"/>
+    <script  src="{% static 'js/bootstrap.min.js' %}"> </script>
+    <script src="https://js.braintreegateway.com/web/dropin/1.36.1/js/dropin.min.js"></script>
+     <script  src="{% static 'js/getDropin.js' %}"></script>
+     <script  src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/all.min.js' %}"></script>
+</head>
+
+<body>
+   {% block content %}{% endblock content %}
+</body>
+
+</html>

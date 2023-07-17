@@ -1,37 +1,75 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 import braintree
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, get_object_or_404
+from .models import Category,Product
+import json
 
+def productPage(request,id,slug):
+    try:
+        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+        client_token = gateway.client_token.generate()
+    except(Exception):
+        print("errore in view : generazione token")
+    products = Products.objects.filter(available=True)    
+    template="product/product.html"    
+    products = get_object_or_404(Product,
+    id=id,
+    slug=slug,
+    available=True)
+    return render(request,template,{'products': products,"client_token":client_token})
 
+def product_list(request,category_slug=None):
+    try:
+        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+        client_token = gateway.client_token.generate()
+    except(Exception):
+        print("errore in view : generazione token")
+    category = None
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)   
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = category.products.all()
+    template="product/product.html"    
+    return render(request,template,{'products': products,"client_token":client_token})
+
+@csrf_exempt
 def page(request):
     paymethod = ""
     amount = ""
-    cardNumberValue = ""
-    expiration_date = ""
-    gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+    try:
+        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+        client_token = gateway.client_token.generate()
+        print("generato Token con chiave ="+client_token)
+    except(Exception):
+        print("errore in view : generazione token")
     if request.method == 'GET':
-        return render(request, "base_ecomm.html")
-# per il client_token invece che la token_key :
-# client_token = gateway.client_token.generate()
-# return render(request, "base_ecomm.html" , {'client_token' : client_token})
+        data = json.dumps({"client_token": client_token,})
+        return JsonResponse(data, safe=False)
     else:
-        request.method == 'POST'
         if 'amount' in request.POST:
             amount = request.POST['amount']
+            print("amount="+amount)
         if 'paymentMethodNonce' in request.POST:
             paymethod = request.POST['paymentMethodNonce']
-        if 'cardNumberValue' in request.POST:
-            cardNumberValue = request.POST['cardNumberValue']
-    result = gateway.transaction.sale({"credit_card": {
-                                                      "number": cardNumberValue,
-                                                      "expiration_date": "05/2010",
-        "cvv": "100"
-    },
-                                        {'amount': amount, 'payment_method_nonce': paymethod,
-                                         'options':                                           {'submit_for_settlement': True, }})
-        if result.is_success:
-        print(str(result))
-        return HttpResponse({'result': result})
-        HttpResponse("Qualcosa è andato storto", {'result': result})
+            print("result="+result)
+            result = gateway.transaction.sale({'amount': amount, 'payment_method_nonce': paymethod})
+    transaction = str(result.transaction.processor_response_text)
+    return HttpResponse(transaction)
+
+#processo di checkout
+@csrf_exempt
+def checkout(request):
+    if 'amount' in request.POST:
+        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+        amount = request.POST['amount']
+        print("amount="+amount)
+    if 'paymentMethodNonce' in request.POST:
+        paymethod = request.POST['paymentMethodNonce']
+        result = gateway.transaction.sale({'amount': amount, 'payment_method_nonce': paymethod})
+        transaction = str(result.transaction.processor_response_text)
+        return HttpResponse(transaction)
