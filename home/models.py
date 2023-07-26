@@ -19,6 +19,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=200,
                             unique=True)
     available = models.BooleanField(default=True)
+
     class Meta:
         ordering = ('name',)
         verbose_name = 'category'
@@ -27,9 +28,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
+    '''def get_absolute_url(self):
         return reverse('shop:product_list_by_category',
-                       args=[self.slug])
+                       args=[self.slug])'''
 
 
 class Product(models.Model):
@@ -44,6 +45,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    rootLink = models.URLField(null=True, blank=True)
 
     class Meta:
         ordering = ('name',)
