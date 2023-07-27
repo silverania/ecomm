@@ -63,7 +63,6 @@ def product_list(request, category_slug=None):
         category = Category.objects.get(slug=category_slug)
         products = category.products.all()
         nej = serializers.serialize("json", products)
-        breakpoint()
     template = "product/product.html"
     return render(request, template, {"category": category, "client_token": client_token, "categories": categories, "products": nej})
 
