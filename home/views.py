@@ -50,7 +50,7 @@ class LazyEncoder(DjangoJSONEncoder):
         return super().default(obj)
 
 
-def product_list(request, category_slug=None):
+def product_list(request, category_slug=None, product_slug=None):
     try:
         gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
         client_token = gateway.client_token.generate()
@@ -63,8 +63,12 @@ def product_list(request, category_slug=None):
         category = Category.objects.get(slug=category_slug)
         products = category.products.all()
         nej = serializers.serialize("json", products)
+    if product_slug:
+        for p in products:
+            if p.slug == product_slug:
+                product = Product.objects.get(slug=product_slug)
     template = "product/product.html"
-    return render(request, template, {"category": category, "client_token": client_token, "categories": categories, "products": nej})
+    return render(request, template, {"product": product, "category": category, "client_token": client_token, "products": nej})
 
 
 @csrf_exempt
