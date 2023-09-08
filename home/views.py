@@ -15,15 +15,18 @@ from ecomm.tasks import order_created
 
 
 def productPage(request, id, slug):
-    #gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
-    #client_token = gateway.client_token.generate()
+    try:
+        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+        client_token = gateway.client_token.generate()
+    except(Exception):
+        print("errore in view : generazione token")
     products = Products.objects.get(available=True)
     template = "product/product.html"
     products = get_object_or_404(Product,
                                  id=id,
                                  slug=slug,
                                  available=True)
-    return render(request, template, {'products': products})
+    return render(request, template, {'products': products, "client_token": client_token})
 
 
 ''' verifica la presenza di product e altro '''
