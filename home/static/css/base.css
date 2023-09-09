@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'sans-regular';
+  src: url('../Fonts/OpenSans-Regular.ttf');
+}
+@font-face {
+  font-family: 'verdana-regular';
+  src: url('../Fonts/verdana-font-family/verdana.ttf');
+}
+@font-face {
+  font-family: 'dyna';
+  src: url('../Fonts/static/DynaPuff/DynaPuff-Bold.ttf');
+}
+@font-face {
+  font-family: 'dyna-condensed';
+  src: url('../Fonts/static/DynaPuff_Condensed/DynaPuff_Condensed-Bold.ttf');
+}
+body{
+font-family: 'sans-regular'!important;
+text-rendering: optimizeLegibility;
+}
+body{
+font-family: 'verdana-regular'!important;
+text-rendering: optimizeLegibility;
+}
+#h1_product{
+font-family: 'sans-regular';
+text-align: center;
+}
+
+#span_pageTitle{
+font-family:"dyna-condensed";
+font-size: 3rem;
+}
+.divTitle{
+padding-bottom: 2%;
+}

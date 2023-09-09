@@ -1,0 +1,126 @@
+{% extends "base_main.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block pageTitle %}{{product.name}}{% endblock pageTitle %}
+{% block content %}
+{% autoescape off %}
+<script>
+  var BASE_URL="https://127.0.0.1:8000/home/";
+  var products={{ products }};
+  var category="{{ category_selected }}";
+</script>
+{% endautoescape %}
+<div id="header" class="row mb-4">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header ms-5">
+      <a class="title navbar-brand" href="#">Breakingweb's store</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+  </div>
+</nav>
+</div>
+  
+
+<div class="row">
+<div class="item  col-8 text-center">
+  <img  class="img img-fluid img_logo"src="{% static 'images/monkey.jpeg' %}">
+  <span id="s_title">Idee Animali</span> 
+</div>
+<div id="product" class="row mt-5">
+  <div class="col_product col-4 mt-5 text-center">
+    <ul id="ulproduct" class="list-group"><span id="s_categorie" class="badge bg-light">Prodotti in {{category_selected}}</span>
+    
+    </ul>
+  </div>
+    <div class="col_product col-4">
+
+        <div class="item"><img style="display:inline" class="img img-fluid" id="imgTitleProduct"  src="{% get_media_prefix %}{{product.photo}}"/><span class="mb-5 "id="s_item">{{product}}</span>
+          <span class="badge bg-success mb-5" id="s_item_price">{{product.price}} €</span></p>
+          <span class="mt-3"><span id="truncate" onclick="truncateText()"> {{product.description}}</span>
+      </span>
+<!--a href="#">
+<img id="zoom_img" onclick="zoomin()"src="{% if product.image %}{{ product.image.url }}{%
+else %}{% static "img/no_image.png" %}{% endif %}">
+</a>
+<a href="#">{{ products.name }}</
+a-->
+<br>
+        </div></div>
+</div>
+</div>
+
+
+      <div class="row">
+        <div class="col-12">
+    <div id="container" class=" mt-5 mb-5 img_container">
+      <div class="zoombox mb-5 mt-5" data-toggle="tooltip" data-placement="right" title="seleziona un area nell' immagine per Zummare" style="display:block;background-color: white;"><span style="margin-left:28%;background-color:white;font-size:0.4rem">Seleziona una parte per ingrandirla</span>
+        <img  class="img"id="imgProduct"  src="{% get_media_prefix %}{{product.photo}}">
+        <div class="selector"></div>
+    </div>
+    <button type="button" id="buttonrefresh" class="mt-3 mb-5 form-control reset"><i class="fa fa-refresh" aria-hidden="true"></i>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div>
+ <div class="row justify-content-center" id="customer-info" hidden=hidden>
+      <div id="datispedizione" class="col-5 text-center mb-5 badge bg-light" >
+        <div class="mb-4"><span id="titolospedizione" class="badge bg-primary">Spedisci Qui</span></div>
+        <div class="mb-3" align=center>
+        <div style="display:inline"></div> <div style="display:inline"><input id="icitta"style="width:30%;max-widt:30%" class="form-control" placeholder="Città" aria-label="Città" aria-describedby="basic-addon1"/></div> 
+        </div>
+        <div class="mb-3">
+        <div style="display:inline"></div> <div style="display:inline"><input id="ivia" style="display:inline;width:30%;max-widt:30%" class="form-control" placeholder="via" aria-label="Via" aria-describedby="basic-addon1"/>
+          </div>
+        <div style="display:inline"></div><div style="display:inline"><input id="icivico" style="width:18%;display:inline;"class="ms-2 form-control" placeholder="civico" aria-label="Numerocivico" aria-describedby="basic-addon1">
+        </div> 
+        </div>
+        <div>
+        <div style="display:inline"class="mt-2"></div> <div style="display:inline" align=center><input id="itelefono" style="width:40%;display:inline;"class="form-control mb-5" placeholder="telefono" aria-label="Telefono" aria-describedby="basic-addon1"></div> 
+               <div style="display:block"></div><div style="display:inline-block;width:80%;"><textarea row=20 col=10 id="tinfoerichieste" style="font-size:1ev;"class="ms-2 form-control" aria-label="infovarie" aria-describedby="basic-addon1"></textarea>
+  
+      </div>
+      </button>
+  
+      </div>
+  </div>
+</div>
+
+
+    <div class="row justify-content-center">
+      <div class="col-3 text-center mb-5">
+      <!-- DROPIN-->
+      
+    <script>
+    var client_token = "{{ client_token }}";
+    var price = {{product.price}};
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    
+    </div>
+  </div>
+  <div class="row justify-content-center">
+      <div class="col-5 ms-5 text-center mb-5">
+        <button  id="b_compra" onclick="javascript:showInfo();" class="btn btn-outline-success mb-5" type="button"  value="Compra">Aggiungi al carrello
+      </button>
+      {% csrf_token %}
+  <div w3-include-html="https://127.0.0.1:8000/checkout/"></div>
+  <input type="submit" value="Paga" />
+</form>
+      </div>
+  </div>
+  
+<!-- customer orders -->
+ 
+      {% endblock %}
+

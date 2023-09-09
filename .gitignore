@@ -1,11 +1,1 @@
-*
-!.gitignore
-!/home/
-!/ecomm/urls.py
-!/*/*.py
-!/home/templates/
-!/home/templates/*.html
-!/user/
-!/user/*.py
-!/user/templates/
-!/user/templates/*
+settings.py

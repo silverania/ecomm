@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
-import braintree
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
@@ -12,6 +11,7 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from celery import shared_task
 from ecomm.tasks import order_created
+from paypal.pro.views import PayPalPro
 
 
 def productPage(request, id, slug):
@@ -53,11 +53,6 @@ class LazyEncoder(DjangoJSONEncoder):
 
 
 def product_list(request, category_slug=None, product_slug=None):
-    try:
-        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
-        client_token = gateway.client_token.generate()
-    except(Exception):
-        print("errore in view : generazione token")
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
     if category_slug:
@@ -73,7 +68,7 @@ def product_list(request, category_slug=None, product_slug=None):
             if p.slug == product_slug:
                 product = Product.objects.get(slug=product_slug)
     template = "product/product.html"
-    return render(request, template, {"categories": categories, "category_selected": category_selected, "product": product, "cat": cat, "client_token": client_token, "products": nej})
+    return render(request, template, {"categories": categories, "category_selected": category_selected, "product": product, "cat": cat, "products": nej})
 
 
 @csrf_exempt
@@ -108,16 +103,42 @@ def page(request):
 # processo di checkout
 
 
+def nvp_handler(nvp):
+    # This is passed a PayPalNVP object when payment succeeds.
+    # This should do something useful!
+    pass
+
+
 @csrf_exempt
 def checkout(request):
-    if 'amount' in request.POST:
-        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
-        amount = request.POST['amount']
-        print("amount="+amount)
-    if 'paymentMethodNonce' in request.POST:
-        paymethod = request.POST['paymentMethodNonce']
-        result = gateway.transaction.sale(
-            {'amount': amount, 'payment_method_nonce': paymethod, "options": {
-                "submit_for_settlement": True}})
-        transaction = str(result.transaction.processor_response_text)
-    return JsonResponse({"transaction": transaction, "result.is_success": result.is_success})
+    breakpoint()
+
+    return ppp(request)
+
+
+def create_billing_agreement_view(request):
+    wpp = PayPalWPP(request)
+    token = request.GET.get('token')
+    wpp.createBillingAgreement({'token': token})
+
+
+def do_reference_transaction_view(request):
+    wpp = PayPalWPP(request)
+    reference_id = request.POST.get('reference_id')
+    amount = request.POST.get('amount')
+    wpp.doReferenceTransaction({'referenceid': reference_id, 'amt': amount})
+
+
+def checkout(request):
+    item = {"paymentrequest_0_amt": "0.1",  # amount to charge for item
+            "inv": "inventory",         # unique tracking variable paypal
+            "custom": "tracking",       # custom tracking variable for you
+            "cancelurl": "http://...",  # Express checkout cancel url
+            "returnurl": "http://..."}  # Express checkout return url
+    ppp = PayPalPro(
+        item=item,                            # what you're selling
+        payment_template="payment.html",      # template name for payment
+        confirm_template="confirmation.html",  # template name for confirmation
+        success_url="/success/",              # redirect location after success
+        nvp_handler=nvp_handler)
+    return ppp(request)

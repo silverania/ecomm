@@ -1,0 +1,255 @@
+@font-face {
+    font-family: 'Alpha Slab One';
+    src: url('../Fonts/Alfa_Slab_One/AlfaSlabOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('../Fonts/Montserrat-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('../Fonts/Montserrat-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Open-Sans-Bold';
+    src: url('../Fonts/Open-Sans-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Open-Sans';
+    src: url('../Fonts/OpenSans-VariableFont_wdth,wght.ttf');
+}
+
+@font-face {
+    font-family: 'WorkSans-Regular';
+    src: url('../Fonts/WorkSans-Regular.ttf');
+}
+
+body {
+    background-color:white;
+}
+
+.title{
+  font-family: 'Open-Sans';
+        font-weight: 900;
+        font-size: 3em;
+        color:orange;
+} 
+
+ul{
+ margin:0 auto;
+}
+
+#s_categorie,#s_item{/* display:block; */width:fit-content;font-size:1.6rem;font-weight: 900;color:brown;margin:0 auto;}
+
+#s_item_price{
+display:block;
+width:fit-content;
+font-size:1.6rem;
+font-weight: 900;
+margin:0 auto;
+color:white;
+}
+
+#li_product{
+    margin-top:30px;
+}
+
+
+
+img_container{
+background-color: orange;
+}
+
+#dropin-container{
+width:100%;
+margin-left:3%;
+}
+.button {
+cursor: pointer;
+font-weight: 500;
+width:20%;
+left: 30%;
+line-height: inherit;
+position: relative;
+text-decoration: none;
+text-align: center;
+border-style: solid;
+border-width: 1px;
+border-radius: 3px;
+-webkit-appearance: none;
+-moz-appearance: none;
+display: inline-block;
+}
+.button--small {
+padding: 10px 20px;
+font-size: 0.875rem;
+}
+.button--green {
+outline: none;
+background-color: #64d18a;
+border-color: #64d18a;
+color: white;
+transition: all 200ms ease;
+}
+.button--green:hover {
+background-color: #8bdda8;
+color: white;
+}
+#s_item{
+    margin-left: 5px;
+    display: inline;
+    width: 80%;
+ }      
+#b_compra{
+    margin-left: -9%;
+}
+
+@media screen and (max-width: 576px) {
+#s_title {
+        font-family: 'Open-Sans';
+        font-weight: 900;
+        font-size: 1em;
+    }
+.img_logo{
+    width:70px;
+}
+}
+@media screen and (min-width: 576px) {
+    #s_title {
+        font-family: 'Open-Sans';
+        font-weight: 900;
+        font-size: 1em;
+    }
+
+    .img_logo {
+        width: 70px;
+    }
+    .img_product {
+            width: 150px;
+        }
+    .col_product {
+            margin-top:10px;
+            /* margin-left: 10%; */
+        }
+}
+
+#submit-button{
+    margin-top:50px;
+}
+
+#container {
+  width: 234px;
+  height: 199px;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  margin-left: 40%;
+}
+#buttonrefresh{margin-left: 25%;}
+/*ZOOMBOX=====================*/
+/*IMAGE-----------------------*/
+.zoombox{
+  position:relative;
+  /*border: 2px solid #AAAAAA;*/
+  width:130%;
+  height :140%;
+  border:none;
+  background-color: #666666;
+  overflow: hidden;
+}
+.zoombox img {position:relative;}
+.zoombox img.drag {cursor:move;}
+.zoombox .selector {
+  display: none;
+  position: absolute;
+  border: 1px solid #999999;
+  background-color: rgba(255,255,255, 0.3);
+}
+#imgTitleProduct{
+     border: 2px solid #AAAAAA;
+     width: 15%;
+     /* float:initial; */
+     /* max-width: 5%; */
+     height :20%;
+     border:none;
+     background-color: #666666;
+     overflow: hidden;
+     vertical-align: top;
+}
+/*CONTROL---------------------*/
+.reset {float:left;border:none;}
+.info {float:right;}
+
+input::placeholder {
+  font-weight: bold;
+  font-size:0.5ev;
+  opacity: 0.5;
+  color: red;
+}
+#titolospedizione{
+    margin-top:3%;
+    font-size:1rem;
+}
+
+.line-height-li {
+    line-height: 20%;
+}
+#datispedizione{
+    width:fit-content;
+    border-style:none;
+}
+#s_continua{
+    font-size:1.3rem;
+    color:orange;
+}
+
+@media (max-width: 575.98px) { 
+.col_product {
+    margin-top:10px;
+    margin-left: 10%;
+}
+#b_compra{
+   font-size:medium;
+   font-weight: bold;
+   width:100%; 
+}
+.title{
+   font-size:large; 
+}
+ #s_categorie{
+    font-size:x-small;
+ }
+ #s_item{
+    font-size:x-small;
+ }      
+}
+
+@media (max-width: 767.98px) {
+     #s_categorie{
+    font-size:medium;
+ }   
+
+}
+
+@media (max-width: 991.98px) { 
+ #s_categorie{
+    font-size:medium;
+ }   
+ }
+
+@media (max-width: 1199.98px) { 
+ #s_categorie{
+    font-size:large;
+ }   
+ }
+
+@media (max-width: 1399.98px) { 
+    #b_compra{
+   font-size:medium;
+   font-weight: bold;
+   width:30%; 
+}
+ }
