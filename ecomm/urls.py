@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from paypal.pro.helpers import PayPalWPP
+
 from django.urls import path, include
 from home import views
 from django.contrib import admin
@@ -28,13 +28,5 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('<int:id>/<slug:slug>/', views.productPage,
          name='productPage'),
-    path('payment-url/', views.checkout),
-    path('paypal/', include('paypal.standard.ipn.urls')),
-    #path('checkout/', views.checkout),
 
-    path('checkout/', views.payment_checkout, name='checkout_payment'),
-    path('create_payment/', views.create_payment, name='create_payment'),
-    path('execute_payment/', views.execute_payment, name='execute_payment'),
-    path('execute_payment/payment_failed.html',
-         views.execute_payment, name='payment_failed'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
