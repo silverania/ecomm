@@ -4,7 +4,7 @@ from .models import Category, Product, Manager
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug','available']
+    list_display = ['name', 'slug', 'available']
     prepopulated_fields = {'slug': ('name',)}
 
 
@@ -16,9 +16,9 @@ class ManagerAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'price',
+    list_display = ['name', 'idapi', 'slug', 'price', 'consegna',
                     'available', 'created', 'updated']
-    list_filter = ['available', 'created', 'updated']
+    list_filter = ['available', 'idapi', 'created', 'updated', 'consegna']
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('name',)}
 

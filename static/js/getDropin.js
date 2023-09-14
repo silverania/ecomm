@@ -1,53 +1,58 @@
 
-var button = document.querySelector('#submit-button');
+$(document).ready(function () {
+  var customerInfo, butinfo, butcheckinfo;
+  butinfo = document.querySelector('#submitBtnnone');
+  butcheckinfo = document.querySelector('#checkinfo');
+  customerInfo = document.querySelector('#customer-info');
+  $('#submitBtnnone').click(function () {
+    customerInfo.removeAttribute('hidden');
+    butinfo.setAttribute('hidden', 'hidden');
+    butcheckinfo.removeAttribute('hidden');
+    butcheckinfo.setAttribute("visibility", "visible");
+  });
 
-function dropinCreate() {
-  document.getElementById("submit-button").setAttribute("action", "/checkout");
-  try {
-    braintree.dropin.create({
-      //authorization: "production_5r4mc5mt_wnz3hnyc64t2nhv9", container: "#dropin-container",
-      //authorization: 'sandbox_kt24h5dd_tttvwsx23m9khfy6', container: "#dropin-container",
-      authorization: client_token, container: "#dropin-container", locale: "it_IT",
-    }, function (err, dropinInstance) {
-      if (err) {
-        // Handle any errors that might've occurred when creating Drop-in
-        console.error(err);
-        return;
+  $('#checkinfo').click(function () {
+    var funct = verificaInfo();
+  })
+
+  function verificaInfo() {
+    inputs = document.getElementsByTagName('input');
+    for (index = 0; index < inputs.length; ++index) {
+      if (inputs[index].value != "") {
+        continue;
       }
-      document.getElementById("submit-button").addEventListener('click',
-        function () {
-          dropinInstance.requestPaymentMethod(function (err, payload) {
-            /* il click sul button paga sul dropin button invia il
-            pagamento cryptato in una variabile chiamata : payment method nonce*/
-            $.ajax({
-              type: 'POST',
-              url: '/checkout',
-              // esegue la view page in views.py
-              headers: { 'X-CSRFToken': csrftoken }, /* riga necessaria solo su django,
-questo token (csrftoken) non ha nulla a che vedere con il client_token per l 'autenticazione' su braintree , su framework diversi da django non serve*/
-              data: { 'paymentMethodNonce': payload.nonce, 'amount': "" }
-            }).done(function (result) {
-              dropinInstance.teardown(function (teardownErr) {
-                if (teardownErr) {
-                  console.error('non posso resettare il dropin');
-                } else {
-                  console.info('dropin reset ok!');
-                  $('#submit-button').remove(); $('#prezzo').remove();
-                }
-              });
-              if (result.success) {
-                $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-              } else {
-                console.log(result);
-                $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-              }
-            });
-          });
-        });
-    });
+      else {
+        alert("inserisci bene tutte le informazioni per la spedizione");
+        return -1;
+      }
+    }
+    $('#submitBtn').click();
   }
+  fetch("/config/")
+    .then((result) => { return result.json(); })
+    .then((data) => {
+      // Inizia Stripe.js
+      const stripe = Stripe(data.publicKey);
 
-  catch (TypeError) {
-    console.log(TypeError);
-  }
-}
+
+      // Event handler
+      try {
+        document.querySelector("#submitBtn").addEventListener("click", () => {
+          // Prendi il  Checkout Session ID
+          fetch("/create-checkout-session/")
+            .then((result) => { return result.json(); })
+            .then((data) => {
+              console.log(data);
+              // Vai Stripe Checkout
+              return stripe.redirectToCheckout({ sessionId: data.sessionId })
+            })
+            .then((res) => {
+              console.log(res);
+            });
+        });
+      }
+      catch {
+        return 0;
+      }
+    });
+})

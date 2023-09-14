@@ -24,9 +24,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('home/<slug:category_slug>/<slug:product_slug>',
          views.product_list, name="product_list"),
-    path('page', views.page),
     path('admin', admin.site.urls),
     path('<int:id>/<slug:slug>/', views.productPage,
          name='productPage'),
-
+    path('config/', views.stripe_config),  # new
+    path('create-checkout-session/', views.create_checkout_session),  # new
+    path('success/', views.SuccessView.as_view()),  # new
+    path('cancelled/', views.CancelledView.as_view()),  # new
+    path('webhook/', views.stripe_webhook),  # new
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

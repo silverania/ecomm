@@ -48,6 +48,9 @@ class Product(models.Model):
     rootLink = models.URLField(null=True, blank=True)
     quantity = models.IntegerField()
     photo = models.ImageField(upload_to="products", default="")
+    consegna = models.PositiveIntegerField()
+    disponibile = models.BooleanField()
+    idapi = models.CharField(max_length=200, db_index=True)
 
     class Meta:
         ordering = ('name',)

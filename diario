@@ -1,6 +1,4 @@
-è il client: index.js con urlib(npm)  a controllare se il prodott oè sempre presente su amazon 
-se il product non è più presente il browser deve notificare il fatto 
-il sito del prodotto da vendere deve aver il nome del venditore come path , in modo che possa sapere a chi dare i soldi 
-modificare funzione cleanjson per pulire il json
-aggiungere seconda foto prodotto per mostrare le funzioni
-l' imagine prodotto è statica cambiala in dinamica
+agginugere il tempo di spedizione come variabile template all 'interno di success.html
+nella view in home bisogna aggiuntgere lo slug_prodotto come path della variabile domain_url
+mostra il button stripe solo dopo aver acquisito l' indirizzo di spedizione 
+scarica foto decenti di dimensioni grandi

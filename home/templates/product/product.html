@@ -12,54 +12,59 @@
   var category="{{ category_selected }}";
 </script>
 {% endautoescape %}
-<div id="header" class="row mb-4">
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header ms-5">
-      <a class="title navbar-brand" href="#">Breakingweb's store</a>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-4 col-sm-6">
+    <div class="ms-2">
+      <a class="mytitle" href="#">Breakingweb's store</a>
     </div>
-    <ul class="nav navbar-nav">
+    <!--ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Page 1</a></li>
       <li><a href="#">Page 2</a></li>
       <li><a href="#">Page 3</a></li>
-    </ul>
+    </ul-->
   </div>
-</nav>
+<div id="ideeanimali" class="col-4 col-md-2 ">
+<img  class="img img-fluid img_logo"src="{% static 'images/monkey.jpeg' %}">
+  <span id="s_title">Idee Animali</span>
+    </div> 
 </div>
-  
+</div>
 
 <div class="row">
-<div class="item  col-8 text-center">
-  <img  class="img img-fluid img_logo"src="{% static 'images/monkey.jpeg' %}">
-  <span id="s_title">Idee Animali</span> 
-</div>
-<div id="product" class="row mt-5">
-  <div class="col_product col-4 mt-5 text-center">
+  <div class="col_product col-2 mt-5 text-start text-sm-start">
     <ul id="ulproduct" class="list-group"><span id="s_categorie" class="badge bg-light">Prodotti in {{category_selected}}</span>
     
     </ul>
   </div>
-    <div class="col_product col-4">
 
-        <div class="item"><img style="display:inline" class="img img-fluid" id="imgTitleProduct"  src="{% get_media_prefix %}{{product.photo}}"/><span class="mb-5 "id="s_item">{{product}}</span>
-          <span class="badge bg-success mb-5" id="s_item_price">{{product.price}} €</span></p>
-          <span class="mt-3"><span id="truncate" onclick="truncateText()"> {{product.description}}</span>
-      </span>
-<!--a href="#">
-<img id="zoom_img" onclick="zoomin()"src="{% if product.image %}{{ product.image.url }}{%
-else %}{% static "img/no_image.png" %}{% endif %}">
-</a>
-<a href="#">{{ products.name }}</
-a-->
+  <div class="col_product col-6 col-md-4  offset-md-2  mt-5">
+        <div class="item">
+          <div id="divimage1" style="display:flex">
+          <img  class="img img-fluid" id="imgTitleProduct"  src="{% get_media_prefix %}{{product.photo}}"/>
+          <p id="s_item">{{product.name|slice:":100"}}..</p>
+          </div>
+          <span class="badge bg-success" id="s_item_price">{{product.price}} €</span>
+          <p id="p_consegna"class="text-center mb-3" >Consegna in {{product.consegna}} giorni</p>
+        <p class="text-center mb-3" style="display:inline;font-weight:bold;font-size:large ;"><span class="s_disponibile badge bg-warning" class="">prodotto {% if product.disponibile is True %} disponibile {% else %} non disponibile {% endif %}</span>
+        </p></p>
 <br>
         </div></div>
+  
+  
 </div>
+  
+<div class="row">
+  <div class="col-8 col-md-4 text-center offset-md-4 offset-2">
+     <span class="mt-3"><span id="truncate" onclick="truncateText()"> {{product.description}}</span>
+      </span>
+  </div>
 </div>
 
 
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-center">
     <div id="container" class=" mt-5 mb-5 img_container">
       <div class="zoombox mb-5 mt-5" data-toggle="tooltip" data-placement="right" title="seleziona un area nell' immagine per Zummare" style="display:block;background-color: white;"><span style="margin-left:28%;background-color:white;font-size:0.4rem">Seleziona una parte per ingrandirla</span>
         <img  class="img"id="imgProduct"  src="{% get_media_prefix %}{{product.photo}}">
@@ -74,7 +79,7 @@ a-->
 
 <div>
  <div class="row justify-content-center" id="customer-info" hidden=hidden>
-      <div id="datispedizione" class="col-5 text-center mb-5 badge bg-light" >
+      <div id="datispedizione" class="col-3 text-center mb-5 badge bg-light" >
         <div class="mb-4"><span id="titolospedizione" class="badge bg-primary">Spedisci Qui</span></div>
         <div class="mb-3" align=center>
         <div style="display:inline"></div> <div style="display:inline"><input id="icitta"style="width:30%;max-widt:30%" class="form-control" placeholder="Città" aria-label="Città" aria-describedby="basic-addon1"/></div> 
@@ -101,28 +106,21 @@ a-->
       <div class="col-3 text-center mb-5">
       <!-- DROPIN-->
       
-    <script>
-    var client_token = "{{ client_token }}";
-    var price = {{product.price}};
-    </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    
     
     </div>
   </div>
   <div class="row justify-content-center">
-      <div class="col-5 ms-5 text-center mb-5">
-        <button  id="b_compra" onclick="javascript:showInfo();" class="btn btn-outline-success mb-5" type="button"  value="Compra">Aggiungi al carrello
-      </button>
-      {% csrf_token %}
-  
-      </div>
+      <div class="col-12 text-center mb-1">
       <div id="dropin-container">
-<section class="section">
-    <div class="container">
-      <button class="button is-primary" id="submitBtn">Purchase!</button>
+<section id="section_checkout"class="section">
+    <div class="container" style="margin-bottom:20%;">
+      <button  class="text-center btn btn-warning button is-primary" id="submitBtnnone">Compra !</button>
+       <button  class="text-center button is-primary" id="checkinfo" hidden=hidden>Continua</button>
+       <button  hidden=hidden class="text-center button is-primary" id="submitBtn"></button>
     </div>
   </section>
-
+<div>
 
       </div>
   
