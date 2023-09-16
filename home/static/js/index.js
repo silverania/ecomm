@@ -60,7 +60,7 @@ $(document).ready(function () {
     /* tronco il testo in descrizione */
     text = document.getElementById("truncate").innerHTML;
     var truncated = text.substring(0, 300);
-    document.getElementById("truncate").innerHTML = truncated + '<span class="struncate" style="color:orange; font-size:1rem;">..continua....</span>'
+    document.getElementById("truncate").innerHTML = truncated;
     trunc = true;
 });
 
