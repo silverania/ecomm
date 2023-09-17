@@ -5,16 +5,17 @@
 {% endblock %}
 {% block pageTitle %}{{product.name}}{% endblock pageTitle %}
 {% block content %}
-{% autoescape off %}
+{% autoescape on %}
 <script>
-  var BASE_URL="https://127.0.0.1:8000/home/";
-  var products={{ products }};
-  var category="{{ category_selected }}";
-</script>
+var category = "{{ category_selected }}";
+var BASE_URL = "https://breakingweb.site/ecomm/home/";
+var products = {{ products|safe }};
+var product = '{{ product }}';
 {% endautoescape %}
+</script>
 <div class="container-fluid">
 <div class="row">
-  <div class="col-md-4 col-sm-6">
+  <div class="col-md-6 col-sm-6">
     <div class="ms-2">
       <a class="mytitle" href="#">Breakingweb's store</a>
     </div>
@@ -26,37 +27,40 @@
     </ul-->
   </div>
 <div id="ideeanimali" class="col-4 col-md-2 ">
-<img  class="img img-fluid img_logo"src="{% static 'images/monkey.jpeg' %}">
-  <span id="s_title">Idee Animali</span>
-    </div> 
 </div>
 </div>
 
 <div class="row">
+  
+
   <div class="col_product col-2 mt-5 text-start text-sm-start">
     <ul id="ulproduct" class="list-group"><span id="s_categorie" class="badge bg-light">Prodotti in {{category_selected}}</span>
     
     </ul>
   </div>
 
-  <div class="col_product col-6 col-md-4  offset-md-2  mt-5">
+  <div class="col_product col-6 col-md-4  offset-sm-2 offset-md-2  mt-5">
         <div class="item">
           <div id="divimage1" style="display:flex">
           <img  class="img img-fluid" id="imgTitleProduct"  src="{% get_media_prefix %}{{product.photo}}"/>
           <p id="s_item">{{product.name|slice:":100"}}..</p>
           </div>
-          <span class="badge bg-light" id="s_item_price">{{product.price}} €</span>
-          <p id="p_consegna"class="text-center mb-3" >Consegna in {{product.consegna}} giorni</p>
-        <p id="prodottodisponibile" class="text-center mb-3"><span class="s_disponibile badge bg-warning" class="">prodotto {% if product.disponibile is True %} disponibile {% else %} non disponibile {% endif %}</span>
-        </p></p>
+          <div class="badge bg-light" id="s_item_price">{{product.price}} €
+            <p id="p_consegna"class="text-center mt-3 mb-1" >Consegna in {{product.consegna}} giorni</p>
+          <p id="prodottodisponibile" class="text-center mb-2">
+            prodotto {% if product.disponibile is True %} disponibile {% else %} non disponibile {% endif %}
+        </p>
+          </div>
+          
+        </p>
 <br>
         </div></div>
   
   
 </div>
   
-<div class="row">
-  <div class="col-8 col-md-4 text-center offset-md-4 offset-2" >
+<div id="rowdescription" class="row justify-content-sm-center mb-5">
+  <div class="col-sm-12 col-md-8 col-lg-6 text-center  mb-3" >
      <span class="mt-3"><span style="display:block;text-align:left;" id="truncate" {% if product.description|length > 300 %} onclick="truncateText(){% endif %}"> {{product.description}}</span>
       </span>
   </div>
@@ -65,12 +69,14 @@
 
       <div class="row">
         <div class="col-12 text-center">
-    <div id="container" class=" mt-5 mb-5 img_container">
-      <div class="zoombox mb-5 mt-5" data-toggle="tooltip" data-placement="right" title="seleziona un area nell' immagine per Zummare" style="background-color: white;"><span style="background-color:white;font-size:0.4rem">Seleziona una parte per ingrandirla</span>
-        <img  class="img"id="imgProduct"   src="{% get_media_prefix %}{{product.photo}}">
-        <div class="selector"></div>
-    </div>
-    <button type="button" id="buttonrefresh" class="mt-3 mb-5 form-control reset"><i class="fa fa-refresh" aria-hidden="true"></i>
+    <div id="container">
+      
+      <figure class="zoom" onmousemove="zoom(event)" style="background-image:url({% get_media_prefix %}{{product.photo}})">
+  <img src="{% get_media_prefix %}{{product.photo}}" />
+</figure>
+      
+      
+   
   </div>
 </div>
 </div>
@@ -121,10 +127,10 @@
     </div>
   </section>
 <div>
-
       </div>
   
-  <script>
+
+  
   </div>
 
   

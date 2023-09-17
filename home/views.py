@@ -95,7 +95,7 @@ def product_list(request, category_slug=None, product_slug=None):
             print(p)
             checkDisponibility(p.rootLink)
     template = "product/product.html"
-    return render(request, template, {"categories": categories, "category_selected": category_selected, "product": product, "cat": cat, "products": nej})
+    return render(request, template, {"categories": categories, "category_selected": category_selected, "product": product, "cat": category, "products": nej})
 
 
 @ csrf_exempt

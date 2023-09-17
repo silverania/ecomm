@@ -1,6 +1,8 @@
 var text = "";
 var trunc = "";
+
 $(document).ready(function () {
+
     objectproducts = new Array();
     function cleanJson(json) {
         var data = json.toString();
@@ -17,7 +19,7 @@ $(document).ready(function () {
         return s;
     }
     //products = cleanJson(products);
-    category = cleanJson(category);
+    //category = cleanJson(category);
     var i = 0;
     var elulproduct = document.querySelector('#ulproduct');
     elulproduct.style.width = "100%"
@@ -26,7 +28,7 @@ $(document).ready(function () {
         objectproducts.push(products[i].fields.name);
         var hreflink = "href=" + BASE_URL + category + "/" + products[i].fields.slug;
         var id_li = " id=\"li_product_" + products[i].fields.name + "\"";
-        var style_li = " style=\"width:100%;min-width:100%; \"";
+        var style_li = " ";
         var style_a = " style=\"width:fit-content;display:block; \"";
         $(elulproduct).append('<li' + id_li + style_li + '><a ' + style_a + hreflink + ">" + products[i].fields.name.substring('0', '30') + ".." + '</a ></li > ');
         i++;
