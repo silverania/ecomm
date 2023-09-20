@@ -1,9 +1,13 @@
+from collections import OrderedDict
+from .models import OrderItem, Order
+from .forms import OrderCreateForm
 from bs4 import BeautifulSoup
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .models import Category, Product
@@ -18,22 +22,6 @@ from django.views.generic import TemplateView
 import requests
 from requests.exceptions import HTTPError
 from bs4 import BeautifulSoup
-product = Product.objects
-
-
-def productPage(request, id, slug):
-    try:
-        gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
-        client_token = gateway.client_token.generate()
-    except(Exception):
-        print("errore in view : generazione token")
-    products = Products.objects.get(available=True)
-    template = "product/product.html"
-    products = get_object_or_404(Product,
-                                 id=id,
-                                 slug=slug,
-                                 available=True)
-    return render(request, template, {'products': products, "client_token": client_token})
 
 
 ''' verifica la presenza di product e altro '''
@@ -60,26 +48,16 @@ class LazyEncoder(DjangoJSONEncoder):
 
 
 def product_list(request, category_slug=None, product_slug=None):
-    global product
-
-    def checkDisponibility(root):
-        headers = headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-        try:
-            response = requests.get(root, headers)
-            response.raise_for_status()
-        except HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}')  # Python 3.6
-        except Exception as err:
-            print(f'Other error occurred: {err}')  # Python 3.6
-        else:
-            response.encoding = 'utf-8'  # Optional: requests infers this internally
-            soup = BeautifulSoup(response.text)
-            span = soup.find_all(
-                'span', {'class': 'a-color-price a-text-bold'})
-            print(span)
+    product = Product()
+    product_slug = product_slug
+    category_selected = ""
+    category_slug = category_slug
+    products = Product.objects.all()
+    nej = Product()
+    category = Category.objects.all()
+    product_slug = product_slug
+    cat = ""
     categories = Category.objects.all()
-    products = Product.objects.filter(available=True)
     if category_slug:
         category_selected = str(category_slug)
         category = Category.objects.filter(slug=category_slug)
@@ -93,38 +71,36 @@ def product_list(request, category_slug=None, product_slug=None):
             if p.slug == product_slug:
                 product = Product.objects.get(slug=product_slug)
             print(p)
-            checkDisponibility(p.rootLink)
     template = "product/product.html"
-    return render(request, template, {"categories": categories, "category_selected": category_selected, "product": product, "cat": category, "products": nej})
+    return render(request, template, {"categories": categories, "category_selected": category_selected,
+                                      "productid": product.id, "product": product, "cat": category, "products": nej})
 
 
-@ csrf_exempt
+@csrf_exempt
 def stripe_config(request):
     if request.method == 'GET':
         stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
     return JsonResponse(stripe_config, safe=False)
 
 
-@ csrf_exempt
-def create_checkout_session(request, product_slug=None):
-    global product
+@csrf_exempt
+def create_checkout_session(request, productid=None):
+    stripe_account = "acct_1NolN0AChwTB2ifJ"
+    if productid:
+        product = Product.objects.get(id=productid)
+    #data = json.loads(request.POST.get('data3'))
+    #prodottoid = data['productid']
+    breakpoint()
+
+    breakpoint()
     if request.method == 'GET':
-        domain_url = 'https://127.0.0.1:8000/home/animali/borraccia-portatile/'
+        domain_url = 'https://127.0.0.1:8000/home/animali/'+product.slug
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
-            # Create new Checkout Session for the order
-            # Other optional params include:
-            # [billing_address_collection] - to display billing address details on the page
-            # [customer] - if you have an existing Stripe Customer ID
-            # [payment_intent_data] - capture the payment later
-            # [customer_email] - prefill the email input in the form
-            # For full details see https://stripe.com/docs/api/checkout/sessions/create
-
-            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
             checkout_session = stripe.checkout.Session.create(
                 # PRENDI I WEBHOOKS NEL TERMNALE COSÌ : stripe listen --forward-to localhost:8000/webhook/
                 client_reference_id=request.user.id if request.user.is_authenticated else None,
-                success_url=domain_url +
+                success_url=domain_url + "success.html" +
                 'success?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url=domain_url + 'cancelled/',
                 payment_method_types=['card'],
@@ -132,7 +108,7 @@ def create_checkout_session(request, product_slug=None):
                 line_items=[
                     {
                         'quantity': 1,
-                        'price': product.idapi
+                        'price': product.idapi,
                     }
                 ]
             )
@@ -149,7 +125,7 @@ class CancelledView(TemplateView):
     template_name = 'cancelled.html'
 
 
-@ csrf_exempt
+@csrf_exempt
 def stripe_webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
@@ -172,3 +148,38 @@ def stripe_webhook(request):
         print("Payment was successful.")
         # TODO: run some custom code here
     return HttpResponse(status=200)
+
+
+@csrf_exempt
+def infoacquisto(request):
+    ordine = Order()
+    data = json.loads(request.POST['data3'])
+    ordine.cognome = data['cognome']
+    ordine.nome = data['nomeuser']
+    ordine.telefono = data['telefono']
+    ordine.città = data['citta']
+    ordine.postal = data['cap']
+    ordine.infovarie = data['infoerichieste']
+    ordine.via = data['via']
+    ordine.civico = data['civico']
+    prodottoid = Product.objects.get(id=data['productid'])
+    ordine.prodotto = prodottoid
+    ordine.save()
+
+    return HttpResponse(status=200)
+
+
+@csrf_exempt
+def order_create(request):
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            OrderItem.objects.create(order=order, product=item['product'],
+                                     price=item['price'],
+                                     quantity=item['quantity'])
+# clear the cart
+        return render(request, 'orders/order/created.html', {'order': order})
+    else:
+        form = OrderCreateForm()
+        return render(request,  'orders/order/create.html', {'cart': cart, 'form': form})

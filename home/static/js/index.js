@@ -28,8 +28,9 @@ $(document).ready(function () {
         objectproducts.push(products[i].fields.name);
         var hreflink = "href=" + BASE_URL + category + "/" + products[i].fields.slug;
         var id_li = " id=\"li_product_" + products[i].fields.name + "\"";
+        var id_a = " id=\"li_product_" + products[i].fields.name + "\"";
         var style_li = " ";
-        var style_a = " style=\"width:fit-content;display:block; \"";
+        var style_a = " style=\"width:fit-content;display:inline-block; \"";
         $(elulproduct).append('<li' + id_li + style_li + '><a ' + style_a + hreflink + ">" + products[i].fields.name.substring('0', '30') + ".." + '</a ></li > ');
         i++;
     }
@@ -62,18 +63,26 @@ $(document).ready(function () {
     /* tronco il testo in descrizione */
     text = document.getElementById("truncate").innerHTML;
     var truncated = text.substring(0, 300);
-    document.getElementById("truncate").innerHTML = truncated;
+    document.getElementById("truncate").innerHTML = truncated + '<span class="struncate"style="color:orange;"> continua.....</span>';
     trunc = true;
 });
 
 function truncateText() {
     if (trunc === true || trunc === undefined) {
-        document.getElementById("truncate").innerHTML = text + '<span class="struncate"style="color:orange; size:1rem;">..mostra meno....</span>';
-        trunc = false;
+        $("#truncate").ready(function () {
+            document.getElementById("truncate").innerHTML = text + '<span class="struncate"style="color:orange;"> mostra meno....</span>';
+            trunc = false;
+        });
     }
     else {
-        var truncated = text.substring(0, 300);
-        document.getElementById("truncate").innerHTML = truncated + '<span class="struncate"style="color:orange; size:1rem;">..continua....</span>';
-        trunc = true;
+        $("#truncate").ready(function () {
+            var truncated = text.substring(0, 300);
+            document.getElementById("truncate").innerHTML = truncated + '<span class="struncate"style="color:orange;"> ....continua....</span>';
+            trunc = true;
+        });
     }
+}
+
+function sendInfo() {
+    console.log("binfo is " + binfo);
 }

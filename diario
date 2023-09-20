@@ -2,3 +2,4 @@ agginugere il tempo di spedizione come variabile template all 'interno di succes
 nella view in home bisogna aggiuntgere lo slug_prodotto come path della variabile domain_url
 mostra il button stripe solo dopo aver acquisito l' indirizzo di spedizione 
 scarica foto decenti di dimensioni grandi
+viene fatto il checkout sempre con lo stesso articolo ...controlla

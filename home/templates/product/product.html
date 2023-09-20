@@ -8,16 +8,17 @@
 {% autoescape on %}
 <script>
 var category = "{{ category_selected }}";
-var BASE_URL = "https://breakingweb.site/ecomm/home/";
+var BASE_URL = "https://127.0.0.1:8000/home/";
 var products = {{ products|safe }};
 var product = '{{ product }}';
+var productid = '{{ productid }}';
 {% endautoescape %}
 </script>
 <div class="container-fluid">
-<div class="row">
+<div class="row justify-content-start">
   <div class="col-md-6 col-sm-6">
-    <div class="ms-2">
-      <a class="mytitle" href="#">Breakingweb's store</a>
+    <div class="ms-2 mytitle">
+      <a class="mytitle" align=top href="#"><span id="spantitle" class="badge bg-warning">Breakingweb's store</span></a>
     </div>
     <!--ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
@@ -39,11 +40,11 @@ var product = '{{ product }}';
     </ul>
   </div>
 
-  <div class="col_product col-6 col-md-4  offset-sm-2 offset-md-2  mt-5">
-        <div class="item">
+  <div class="col_product col-20 col-md-6  offset-sm-2 offset-md-2 me-3  mt-5">
+        <div class="item text-end">
           <div id="divimage1" style="display:flex">
           <img  class="img img-fluid" id="imgTitleProduct"  src="{% get_media_prefix %}{{product.photo}}"/>
-          <p id="s_item">{{product.name|slice:":100"}}..</p>
+          <p class="text-start" id="s_item">{{product.name|slice:":100"}}..</p>
           </div>
           <div class="badge bg-light" id="s_item_price">{{product.price}} €
             <p id="p_consegna"class="text-center mt-3 mb-1" >Consegna in {{product.consegna}} giorni</p>
@@ -85,21 +86,47 @@ var product = '{{ product }}';
 
 <div>
  <div class="row justify-content-center" id="customer-info" hidden=hidden>
-      <div id="datispedizione" class="col-3 text-center mb-5 badge bg-light" >
-        <div class="mb-4"><span id="titolospedizione" class="badge bg-primary">Spedisci Qui</span></div>
+      <div id="datispedizione" class="col-3 text-center mt-5 mb-5 badge bg-light" >
+        <div class="mb-4"><span id="titolospedizione" class="badge bg-warning">Spedisci Qui</span></div>
         <div class="mb-3" align=center>
-        <div style="display:inline"></div> <div style="display:inline"><input id="icitta"style="width:30%;max-widt:30%" class="form-control" placeholder="Città" aria-label="Città" aria-describedby="basic-addon1"/></div> 
+          <div class="row">
+            <div class="col-6">
+      <div style="display:inline"></div> 
+      {% csrf_token %}<input id="inome" style="display:inline;width:fit-content;max-width:100%" class="form-control mb-3" 
+      placeholder="nome" aria-label="Nome" aria-describedby="basic-addon1"/>
+            </div>
+            <div class="col-6">
+        <div style="display:inline"></div><input id="icognome"style="width:fit-content" class="form-control" placeholder="cognome" aria-label="cognome" aria-describedby="basic-addon1"/>
+          </div>
+        </div>
+        </div>
+         <div class="mb-3" align=center>
+          <div class="row">
+            <div class="col-6">
+      <input id="icitta"  class="form-control mb-3" 
+      placeholder="città" aria-label="Città" aria-describedby="basic-addon1"/>
+            </div>
+            <div class="col-6">
+        <div ><input id="icap" class="form-control" placeholder="Cap" aria-label="Cap" aria-describedby="basic-addon1"/>
+        </div> 
+            </div>
+          </div>
         </div>
         <div class="mb-3">
-        <div style="display:inline"></div> <div style="display:inline"><input id="ivia" style="display:inline;width:30%;max-widt:30%" class="form-control" placeholder="via" aria-label="Via" aria-describedby="basic-addon1"/>
+           <div class="row">
+            <div class="col-6">
+        <div></div> <div><input id="ivia"  class="form-control" placeholder="via" aria-label="Via" aria-describedby="basic-addon1"/>
           </div>
-        <div style="display:inline"></div><div style="display:inline"><input id="icivico" style="width:18%;display:inline;"class="ms-2 form-control" placeholder="civico" aria-label="Numerocivico" aria-describedby="basic-addon1">
+            </div>
+            <div class="col-6">
+        <div><input id="icivico" class=" form-control" placeholder="civico" aria-label="Numerocivico" aria-describedby="basic-addon1">
         </div> 
+            </div></div>
         </div>
         <div>
-        <div style="display:inline"class="mt-2"></div> <div style="display:inline" align=center><input id="itelefono" style="width:40%;display:inline;"class="form-control mb-5" placeholder="telefono" aria-label="Telefono" aria-describedby="basic-addon1"></div> 
-               <div style="display:block"></div><div style="display:inline-block;width:80%;"><textarea row=20 col=10 id="tinfoerichieste" style="font-size:1ev;"class="ms-2 form-control" aria-label="infovarie" aria-describedby="basic-addon1"></textarea>
-  
+        <div style="display:inline"class="mt-2"></div> <div style="display:inline" align=center><input id="itelefono" style="width:40%;display:inline;"class="form-control mb-5" placeholder="telefono" aria-label="Telefono" aria-describedby="basic-addon1"/></div> 
+               <div style="display:block"></div><div style="display:inline-block;width:80%;"><textarea row=20 col=10 id="infoerichieste" style="font-size:1ev;"class="ms-2 form-control" aria-label="infovarie" placeholder="informazioni da sapere" aria-describedby="basic-addon1"></textarea>
+  </div>
       </div>
       </button>
   
