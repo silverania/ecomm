@@ -1,6 +1,6 @@
 
 var binfo;
-
+var prodotto;
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -75,7 +75,7 @@ $(document).ready(function () {
         return -1;
       }
     }
-    var prodotto = productid;
+    prodotto = productid;
     var datainfo = JSON.stringify({
       'productid': productid, 'nomeuser': inome, 'cognome': icognome, 'citta': icitta, 'cap': icap, 'telefono': itelefono,
       'infoerichieste': infoerichieste, 'via': ivia, 'civico': icivico,
@@ -84,7 +84,7 @@ $(document).ready(function () {
     $.ajax({
       type: "POST",
       url: thisurl,
-      data: { data: datainfo, data2: prodotto },
+      data: { data3: datainfo, data2: prodotto },
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRFToken": getCookie("csrftoken"),  // don't forget to include the 'getCookie' function
@@ -94,9 +94,7 @@ $(document).ready(function () {
       }
     });
     binfo = true;
-
     sendInfo();
-    return true;
     $('#submitBtn').click();
 
   }
@@ -111,7 +109,7 @@ $(document).ready(function () {
       try {
         document.querySelector("#submitBtn").addEventListener("click", () => {
           // Prendi il  Checkout Session ID
-          fetch("/create-checkout-session/")
+          fetch("/create-checkout-session/" + prodotto)
             .then((result) => { return result.json(); })
             .then((data) => {
               console.log(data);

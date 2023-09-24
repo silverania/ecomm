@@ -47,7 +47,13 @@ class LazyEncoder(DjangoJSONEncoder):
         return super().default(obj)
 
 
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    return render(request, 'product/detail.html', {'product': product})
+
+
 def product_list(request, category_slug=None, product_slug=None):
+    template = "list.html"
     product = Product()
     product_slug = product_slug
     category_selected = ""
@@ -71,9 +77,18 @@ def product_list(request, category_slug=None, product_slug=None):
             if p.slug == product_slug:
                 product = Product.objects.get(slug=product_slug)
             print(p)
-    template = "product/product.html"
+    else:
+        products = Product.objects.filter()
+        breakpoint()
+        return render(request, template, {"categories": categories, "category_selected": category_selected,
+                                          "productid": product.id, "product": product, "cat": category, "products": products})
     return render(request, template, {"categories": categories, "category_selected": category_selected,
                                       "productid": product.id, "product": product, "cat": category, "products": nej})
+
+
+def homeecomm(request):
+    template = "homeecomm.html"
+    return render(request, template)
 
 
 @csrf_exempt
@@ -90,9 +105,6 @@ def create_checkout_session(request, productid=None):
         product = Product.objects.get(id=productid)
     #data = json.loads(request.POST.get('data3'))
     #prodottoid = data['productid']
-    breakpoint()
-
-    breakpoint()
     if request.method == 'GET':
         domain_url = 'https://127.0.0.1:8000/home/animali/'+product.slug
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -100,8 +112,8 @@ def create_checkout_session(request, productid=None):
             checkout_session = stripe.checkout.Session.create(
                 # PRENDI I WEBHOOKS NEL TERMNALE COSÌ : stripe listen --forward-to localhost:8000/webhook/
                 client_reference_id=request.user.id if request.user.is_authenticated else None,
-                success_url=domain_url + "success.html" +
-                'success?session_id={CHECKOUT_SESSION_ID}',
+                success_url=domain_url + "/success/success.html" +
+                '?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url=domain_url + 'cancelled/',
                 payment_method_types=['card'],
                 mode='payment',
@@ -119,6 +131,11 @@ def create_checkout_session(request, productid=None):
 
 class SuccessView(TemplateView):
     template_name = 'success.html'
+
+    def get(self, request, category_slug=None, product_slug=None):
+        if product_slug:
+            product = Product.objects.get(slug=product_slug)
+        return render(request, self.template_name, {'product': product.consegna})
 
 
 class CancelledView(TemplateView):

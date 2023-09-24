@@ -13,6 +13,12 @@ class Manager(models.Model):
         return self.name
 
 
+class List(models.Model):
+    def get_absolute_url(self):
+        return reverse('shop:product_list_by_category',
+                       args=[self.slug])
+
+
 class Category(models.Model):
     name = models.CharField(max_length=200,
                             db_index=True)

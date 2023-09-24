@@ -1,5 +1,14 @@
-agginugere il tempo di spedizione come variabile template all 'interno di success.html
-nella view in home bisogna aggiuntgere lo slug_prodotto come path della variabile domain_url
-mostra il button stripe solo dopo aver acquisito l' indirizzo di spedizione 
-scarica foto decenti di dimensioni grandi
-viene fatto il checkout sempre con lo stesso articolo ...controlla
+BUGS :
+
+attivare il mouse pointer su imaggini a sinistra
+indicare il prezzo spedizione in modo evidente da subito
+
+
+IDEE : 
+
+- capire cosa serve , e a chi serve , su fb , e andarlgielo a prendere
+- cambiare il nome al prodotto , in modo che gli utenti non possano cercarlo su google con il nome originale .
+- creare un nome prodotto nuovo in modo che il motore di ricerca indicizzi solo la tua pagina con quel nome prodotto  
+- implementare all' interno di un event listener right-click una funzione di prevent default , per impedire allu' utente 
+  di fare click col tasto destro sulla "foto prodotto" e cercarla in rete
+

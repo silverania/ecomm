@@ -37,3 +37,8 @@ class OrderAdmin(admin.ModelAdmin):
                     'creato', 'updated']
     list_filter = ['pagato', 'creato', 'updated']
     inlines = [OrderItemInline]
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}

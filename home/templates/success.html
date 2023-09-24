@@ -1,5 +1,29 @@
-<div class="row justify-content-center" id="paypalpayments">
-  <div class="col-5 text-center mb-5">
-    <h1>pagamento avvenuto con successo ! l' articolo sara consegnato {{ product.timeconsegna }}</h1>
+{% load static %}
+<html lang="it">
+  <head>
+    <title>successo !</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="silverania" />
+    <title>Il prezzo più basso</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <!--                                               link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <script src="{% static 'js/all.min.js' %}"></script                                               -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="{% static 'css/@popperjs/core/dist/umd/popper.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  </head>
+
+  <div class="row justify-content-center mt-5">
+    <div class="col-5 text-center mb-5 mt-5">
+      <p style="font-size:1.3rem;">
+        pagamento avvenuto con successo ! l' articolo sara consegnato all' indirizzo specificato in
+        <span style="font-size:1.3rem;" class="badge bg-warning">{{ product }} giorni</span>:
+      </p>
+    </div>
   </div>
-</div>
+</html>

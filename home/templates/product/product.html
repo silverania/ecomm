@@ -1,14 +1,18 @@
 {% extends "base_main.html" %}
 {% load static %}
 {% block title %}
-{% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% if category %}{{ category.name }}{% else %}{{product.name|slice:":30"}}{% endif %}
 {% endblock %}
-{% block pageTitle %}{{product.name}}{% endblock pageTitle %}
+{% block keywords %}{{product.name}},{{ category.name }}
+{% endblock %}
+{% block description %}{{product.name}}
+{% endblock %}
+{% block pageTitle %}{{product.name|slice:":30"}}{% endblock pageTitle %}
 {% block content %}
 {% autoescape on %}
 <script>
 var category = "{{ category_selected }}";
-var BASE_URL = "https://127.0.0.1:8000/home/";
+var BASE_URL = "https://127.0.0.1:8000/";
 var products = {{ products|safe }};
 var product = '{{ product }}';
 var productid = '{{ productid }}';
@@ -31,7 +35,7 @@ var productid = '{{ productid }}';
 </div>
 </div>
 
-<div class="row">
+<div class="row justyfy-justify-content-sm-center">
   
 
   <div class="col_product col-2 mt-5 text-start text-sm-start">
@@ -41,15 +45,16 @@ var productid = '{{ productid }}';
   </div>
 
   <div class="col_product col-20 col-md-6  offset-sm-2 offset-md-2 me-3  mt-5">
-        <div class="item text-end">
+        <div class="item text-sm-center text-md-end">
           <div id="divimage1" style="display:flex">
           <img  class="img img-fluid" id="imgTitleProduct"  src="{% get_media_prefix %}{{product.photo}}"/>
           <p class="text-start" id="s_item">{{product.name|slice:":100"}}..</p>
           </div>
           <div class="badge bg-light" id="s_item_price">{{product.price}} €
-            <p id="p_consegna"class="text-center mt-3 mb-1" >Consegna in {{product.consegna}} giorni</p>
-          <p id="prodottodisponibile" class="text-center mb-2">
-            prodotto {% if product.disponibile is True %} disponibile {% else %} non disponibile {% endif %}
+            <p id="p_consegna" align=center class="mb-1" ><span class=" cconsegna mt-3 badge bg-warning">Consegna in {{product.consegna}} giorni</p>
+            <p id="p_consegna" align=left class="cconsegna mt-3 mb-1" >Costo spedizione incluso nel prezzo</p>
+          <p id="prodottodisponibile" align=left class="text-start mb-2">
+            prodotto {% if product.disponibile is True %} Disponibile {% else %} non disponibile {% endif %}
         </p>
           </div>
           
@@ -73,7 +78,7 @@ var productid = '{{ productid }}';
     <div id="container">
       
       <figure class="zoom" onmousemove="zoom(event)" style="background-image:url({% get_media_prefix %}{{product.photo}})">
-  <img src="{% get_media_prefix %}{{product.photo}}" />
+  <img class="img img-fluid" id="mainimage" src="{% get_media_prefix %}{{product.photo}}" />
 </figure>
       
       
@@ -148,7 +153,7 @@ var productid = '{{ productid }}';
       <div id="dropin-container">
 <section id="section_checkout"class="section">
     <div class="container" style="margin-bottom:20%;">
-      <button  class="text-center btn btn-warning button is-primary" id="submitBtnnone">Compra !</button>
+      <button  class="text-center btn btn-warning button is-primary" id="submitBtnnone">Compra</button>
        <button  class="text-center button is-primary" id="checkinfo" hidden=hidden>Continua</button>
        <button  hidden=hidden class="text-center button is-primary" id="submitBtn"></button>
     </div>

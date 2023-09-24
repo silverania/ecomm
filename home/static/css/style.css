@@ -27,7 +27,14 @@
   font-family: "WorkSans-Regular";
   src: url("../Fonts/WorkSans-Regular.ttf");
 }
-
+.active-pink-2 input[type="text"]:focus:not([readonly]) {
+  border-bottom: 1px solid #f48fb1;
+  box-shadow: 0 1px 0 0 #f48fb1;
+}
+.active-pink input[type="text"] {
+  border-bottom: 1px solid #f48fb1;
+  box-shadow: 0 1px 0 0 #f48fb1;
+}
 body {
   background-color: white;
   width: 100%;
@@ -181,7 +188,7 @@ input::placeholder {
   line-height: 20%;
 }
 #datispedizione {
-  width: fit-content;
+  width: auto;
   border-style: none;
 }
 #s_continua {
@@ -243,7 +250,7 @@ input::placeholder {
     font-size: 1rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    /* margin: auto; */
     padding: 0;
   }
   p#p_consegna {
@@ -293,6 +300,16 @@ input::placeholder {
   #truncate {
     font-size: 1.2rem;
   }
+  #checkinfo {
+    width: 80%;
+  }
+  .col_product_2 {
+    padding: 0;
+    margin-bottom: 0;
+  }
+  .cconsegna {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 575.98px) {
@@ -341,7 +358,7 @@ input::placeholder {
     font-size: 1rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    /* margin: auto; */
   }
   #s_title {
     font-family: "Open-Sans";
@@ -372,10 +389,15 @@ input::placeholder {
     /* margin: 10% auto; */
     color: #4e8354;
   }
+  #datispedizione {
+    max-width: 80%;
+  }
+  #checkinfo {
+    width: 100%;
+  }
 
   p#p_consegna {
-    font-size: 0.4rem;
-    font-style: normal;
+    font-size: 0.6rem;
     font-weight: 900;
     /* width: 50%; */
     margin: 0 auto;
@@ -430,7 +452,7 @@ input::placeholder {
     font-size: 1.6rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    /* margin: auto; */
     padding: 0;
   }
   p#p_consegna {
@@ -477,6 +499,9 @@ input::placeholder {
     width: 100%;
     min-width: 100%;
   }
+  #checkinfo {
+    width: auto;
+  }
 }
 
 @media (min-width: 1199.98px) {
@@ -494,7 +519,7 @@ input::placeholder {
     font-size: 1.6rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    /* margin: auto; */
     padding: 0;
   }
   p#p_consegna {
@@ -516,7 +541,7 @@ input::placeholder {
     margin-top: 20px;
     font-size: 5rem;
     font-weight: 900;
-    /* margin: 10% auto; */
+    margin: 20px auto;
     color: #1d6425;
   }
 
@@ -530,6 +555,9 @@ input::placeholder {
     background-color: #666666;
     overflow: hidden;
     vertical-align: top;
+  }
+  #checkinfo {
+    width: auto;
   }
 }
 
@@ -554,7 +582,7 @@ input::placeholder {
     width: fit-content;
     display: block;
     max-height: 5%;
-    margin-top: 20px;
+    margin-top: -12%;
     height: 1%;
     margin-right: auto;
     font-size: 6rem;
@@ -582,9 +610,10 @@ input::placeholder {
     display: block;
     width: fit-content;
     font-size: 1.6rem;
-    margin-right: 30%;
+    /* margin-right: 30%; */
     font-weight: 900;
     color: brown;
+    text-align: left;
     padding: 0;
   }
 
@@ -606,5 +635,8 @@ input::placeholder {
   }
   #truncate {
     font-size: 1.5rem;
+  }
+  #checkinfo {
+    width: auto;
   }
 }

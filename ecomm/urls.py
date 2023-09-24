@@ -28,9 +28,16 @@ urlpatterns = [
     path('config/', views.stripe_config),  # new
     path('create-checkout-session/<int:productid>',
          views.create_checkout_session),  # new
+    path('home/<slug:category_slug>/<slug:product_slug>/success/success.html',
+         views.SuccessView.as_view()),
     path('success/', views.SuccessView.as_view()),  # new
     path('cancelled/', views.CancelledView.as_view()),  # new
     path('webhook/', views.stripe_webhook),  # new
-    path('infoacquisto/', views.infoacquisto, name="infoacquisto")
-    # path('home/<slug:category_slug>/<slug:product_slug>'/success.html,
+    path('infoacquisto/', views.infoacquisto, name="infoacquisto"),
+    #path('', views.homeecomm, name="homeecomm"),
+    path('', views.product_list, name='product_list'),
+    path('<slug:category_slug>/', views.product_list,
+         name='product_list_by_category'),
+    path('<int:id>/<slug:slug>/', views.product_detail,
+         name='product_detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

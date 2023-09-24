@@ -1,0 +1,36 @@
+{% include 'base.html' %}
+{% load static %}
+<script>
+    {% autoescape on %}
+var category = "{{ category_selected }}";
+var BASE_URL = "https://127.0.0.1:8000/";
+var products = {{ products|safe }};
+var product = '{{ product }}';
+var productid = '{{ productid }}';
+{% endautoescape %}
+</script>
+
+{% load static %}
+<head>
+  <meta charset="utf-8" />
+  <title>
+    {% block title %}
+      My shop
+    {% endblock %}
+  </title>
+  <link href="{% static 'css/base.css' %}" rel="styleshee
+t" />
+</head>
+<body>
+  <div id="header">
+    <a href="/" class="logo">My shop</a>
+  </div>
+  <div id="subheader">
+    <div class="cart">Your cart is empty.</div>
+  </div>
+  <div id="content">
+    {% block content %}
+
+    {% endblock %}
+  </div>
+</body>
