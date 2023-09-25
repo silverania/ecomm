@@ -70,12 +70,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    """
-    def get_absolute_url(self):
+
+    """def get_absolute_url(self):
         return reverse('product_detail',
                        args=[self.slug])
     """
-
 
 class Order(models.Model):
     nome = models.CharField(max_length=50)

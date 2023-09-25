@@ -193,17 +193,9 @@ ul.errorlist {
   overflow: hidden;
 }
 
-.product-list .item {
-  width: 25%;
-  padding: 10px 20px 10px 0;
-  float: left;
-  text-align: center;
-  line-height: 1.2;
-}
-
 .product-list .item img {
-  width: 100%;
-  margin-bottom: 8px;
+  /* width: 100%; */
+  /* margin-bottom: 8px; */
 }
 
 .product-detail {
@@ -336,4 +328,60 @@ form div.field {
   background: #efefef;
   color: #666;
   border-radius: 4px;
+}
+@media screen and (min-width: 576px) {
+  .imgitem {
+    width: auto;
+    max-height: 150px;
+    margin: 0 auto;
+  }
+  .product-list .item {
+    width: 40%;
+    padding: 10px 10px 10px 10px;
+    float: left;
+    text-align: center;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .product-list .item {
+    width: 40%;
+    padding: 10px 10px 10px 10px;
+    float: left;
+    text-align: center;
+    line-height: 1.2;
+  }
+}
+#rowdescription {
+  padding: 2%;
+}
+@media (min-width: 991.98px) {
+  .product-list .item {
+    width: 25%;
+    padding: 10px 10px 10px 10px;
+    float: left;
+    text-align: center;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 1199.98px) {
+  .product-list .item {
+    width: 22%;
+    padding: 10px 10px 10px 10px;
+    float: left;
+    text-align: center;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 1399.98px) {
+  .product-list .item {
+    width: 19%;
+    padding: 10px 10px 10px 10px;
+    float: left;
+    text-align: center;
+    line-height: 1.2;
+  }
 }

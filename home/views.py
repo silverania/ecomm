@@ -78,8 +78,7 @@ def product_list(request, category_slug=None, product_slug=None):
                 product = Product.objects.get(slug=product_slug)
             print(p)
     else:
-        products = Product.objects.filter()
-        breakpoint()
+        products = Product.objects.filter(disponibile=True)
         return render(request, template, {"categories": categories, "category_selected": category_selected,
                                           "productid": product.id, "product": product, "cat": category, "products": products})
     return render(request, template, {"categories": categories, "category_selected": category_selected,

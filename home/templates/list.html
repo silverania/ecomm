@@ -1,6 +1,6 @@
 {% extends "product/base.html" %}
 {% load static %}
-{% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% if category %}{{ category.name }}{% else %}articoli{% endif %}
 {% block content %}
 <div id="sidebar">
 <h3>Categorie</h3>
@@ -20,16 +20,27 @@
 <div id="main" class="product-list">
 <h1>{% if category %}{{ category.name }}{% else %}Products
 {% endif %}</h1>
+<div class="row justify-content-center">
 {% for product in products %}
-<div class="item">
-<a href="{{ product.get_absolute_url }}">
-<img src="{% if product.image %}{{ product.image.
-url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+{{product.image}}
+<div class=" col-1 text-center item"  style="margin:0 auto;border: 1px solid orange;">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+<a href="{{category}}/{{products.slug}}"/>
+<img class="imgitem img img-fluid" src="{% if product.photo%}{% get_media_prefix %}{{product.photo}}{% else %}{% static "img/no_image.png" %}{% endif %}">
 </a>
-<a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
-<br>
+   </div>
+    </div>
+<div class="row justify-content-center" >
+        <div id="itemProductName" class="col-12 text-center"style="width:auto;font-weight:900;">
+<a style="color:black;"href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+        </div>
+    </div>
 ${{ product.price }}
 </div>
+
 {% endfor %}
+</div>
+</div>
 </div>
 {% endblock %}
