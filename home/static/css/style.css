@@ -243,7 +243,7 @@ input::placeholder {
     font-size: 1rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    margin-left: 15px;
     padding: 0;
   }
   p#p_consegna {
@@ -341,7 +341,7 @@ input::placeholder {
     font-size: 1rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    margin-left: 5px;
   }
   #s_title {
     font-family: "Open-Sans";
@@ -430,7 +430,7 @@ input::placeholder {
     font-size: 1.6rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    margin-left: 15px;
     padding: 0;
   }
   p#p_consegna {
@@ -494,7 +494,7 @@ input::placeholder {
     font-size: 1.6rem;
     font-weight: 900;
     color: brown;
-    margin: auto;
+    margin: 0 auto;
     padding: 0;
   }
   p#p_consegna {
@@ -582,7 +582,7 @@ input::placeholder {
     display: block;
     width: fit-content;
     font-size: 1.6rem;
-    margin-right: 30%;
+    margin-left: 15px;
     font-weight: 900;
     color: brown;
     padding: 0;
